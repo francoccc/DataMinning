@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<config>
+    <switch>
+        <dbpool>
+        <driver>com.mysql.jdbc.Driver</driver>
+        <url>jdbc:mysql://127.0.0.1:3306/datamining</url>
+        <user>root</user>
+        <password>123456</password>
+        <maxpool>5</maxpool>
+        <maxconn>10</maxconn>
+        <maxexpire>0</maxexpire>
+    </dbpool>
+    </switch>
+</config>
