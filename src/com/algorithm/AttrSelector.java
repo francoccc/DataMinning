@@ -1,8 +1,9 @@
 package com.algorithm;
 
-import com.data.Records;
+import com.data.BaseRecord;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,5 +12,11 @@ import java.util.Set;
  */
 public interface AttrSelector {
 
-    Field select(Records records, Set<Field> attrs);
+    /**
+     * 选择最佳的属性,划分节点
+     * @param records
+     * @param attrs
+     * @return Field
+     */
+    Field select(List<BaseRecord> records, Set<Field> attrs);
 }

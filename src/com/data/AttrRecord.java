@@ -14,6 +14,7 @@ public class AttrRecord extends BaseRecord {
 
     public AttrRecord(boolean decision, Age age, Income income, Credit credit, boolean student) {
         super(decision);
+        this.age = age;
         this.income = income;
         this.credit = credit;
         this.student = student;
