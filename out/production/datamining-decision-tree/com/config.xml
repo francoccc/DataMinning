@@ -1,14 +1,12 @@
 <?xml version = "1.0" encoding="UTF-8"?>
-<config>
-    <switch>
-        <dbpool>
-        <driver>com.mysql.jdbc.Driver</driver>
-        <url>jdbc:mysql://127.0.0.1:3306/datamining</url>
+<switch>
+    <dbpool>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>jdbc:mysql://127.0.0.1:3306/datamining?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=GMT%2B8</url>
         <user>root</user>
         <password>123456</password>
-        <maxpool>5</maxpool>
-        <maxconn>10</maxconn>
+        <maxpool>2</maxpool>
+        <maxconn>5</maxconn>
         <maxexpire>0</maxexpire>
     </dbpool>
-    </switch>
-</config>
+</switch>

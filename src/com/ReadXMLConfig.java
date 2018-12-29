@@ -1,11 +1,12 @@
 package com;
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -19,7 +20,10 @@ public class ReadXMLConfig {
 
     private static ReadXMLConfig readXMLConfig;
 
-    private HashMap<String, Element> confMap;
+    /** Config */
+    private HashMap<String, Node> confMap;
+    /** Attribute */
+    private HashMap<String, String> attrMap = new HashMap<>();
 
     static {
         readXMLConfig = new ReadXMLConfig();
@@ -29,7 +33,7 @@ public class ReadXMLConfig {
         try {
             initReadXMLConfig("com" + File.separator + "config.xml");
         } catch (Exception e) {
-            System.out.println("config.xml init failure!");
+            throw new RuntimeException("config.xml init failure!");
         }
     }
 
@@ -55,21 +59,36 @@ public class ReadXMLConfig {
             throw new NullPointerException(xmlFileName + "not Found.");
         }
         try {
-            DOMParser parser = new DOMParser();
-            parser.parse(new InputSource(in));
-            Document m_config = parser.getDocument();
-            Element root = m_config.getDocumentElement();
-            NodeList nodeList = root.getElementsByTagName("switch").item(0).getChildNodes();
-            int confNum = nodeList.getLength();
+            DocumentBuilder domBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document configDoc = domBuilder.parse(in);
+            configDoc.getDocumentElement().normalize();
+            Element root = configDoc.getDocumentElement();
+            NodeList switches = root.getChildNodes();
+            int confNum = switches.getLength();
             confMap = new HashMap<>();
             for (int i = 0; i < confNum; i++) {
-                Element ele = (Element) nodeList.item(i);
-                confMap.put(ele.getTagName(), ele);
+                Node node = switches.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    confMap.put(node.getNodeName(), node);
+                }
             }
         } catch (Exception e) {
-            System.out.println("xml init failure!");
+            throw new RuntimeException("xml init failure!");
         } finally {
             in.close();
+        }
+    }
+
+    private void initAttributeMap(String object) {
+        if(confMap.containsKey(object)) {
+            NodeList nodes = confMap.get(object).getChildNodes();
+            for(int i = 0; i < nodes.getLength(); i++) {
+                Node node = nodes.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    attrMap.put(object + "." + node.getNodeName(),
+                            node.getFirstChild().getNodeValue().trim());
+                }
+            }
         }
     }
 
@@ -78,18 +97,19 @@ public class ReadXMLConfig {
     }
 
     public String getConfigValue(String key, String defaultValue) {
-        String[] splits = key.split("\\.");
-        String k = splits[0].trim();
-        if(confMap == null) {
+        if(attrMap.containsKey(key)) {
+            return attrMap.get(key);
+        } else {
+            initAttributeMap(key.split("\\.")[0].trim());
+        }
+        String result = attrMap.get(key);
+        if(result == null) {
+            if(defaultValue == null) {
+                throw new RuntimeException(key + " not found!");
+            }
             return defaultValue;
         } else {
-            Element ele= confMap.get(k);
-            String result = ele.getElementsByTagName(splits[1].trim()).item(0)
-                    .getFirstChild().getNodeValue();
-            if(result != null && !"".equals(result)) {
-                return result;
-            }
+            return result;
         }
-        return defaultValue;
     }
 }

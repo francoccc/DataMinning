@@ -18,14 +18,7 @@ public abstract class BaseDao implements Dao{
     /** Connection */
     private Connection conn;
 
-    /** Try jdbc class */
-    static {
-
-    }
-
-    BaseDao() {
-
-    }
+    private BaseDao() { }
 
     @Override
     public Connection getConnection() {
