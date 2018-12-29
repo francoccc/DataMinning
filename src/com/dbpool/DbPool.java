@@ -82,7 +82,8 @@ public class DbPool {
             long lastTime = System.currentTimeMillis();
             while(true) {
                 long currentTime = System.currentTimeMillis();
-                if(timeout > 0 && currentTime - lastTime < timeout) {
+                if(timeout > 0 && currentTime - lastTime > timeout) {
+                    System.out.println("get connection time-out.");
                     break;
                 }
                 if(!connections.isEmpty() && connNum.get() <= maxConn) {

@@ -1,4 +1,4 @@
 package com.domain;
 
-public interface Domain {
+public interface JdbcModel {
 }

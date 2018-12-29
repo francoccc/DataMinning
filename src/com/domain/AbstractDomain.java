@@ -1,9 +1,11 @@
 package com.domain;
 
-public class AbstractModel implements JdbcModel, Cloneable {
+public abstract class AbstractDomain implements JdbcModel, Cloneable {
 
+    /**
+     * clone
+     * @return
+     */
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+    public abstract Object clone();
 }

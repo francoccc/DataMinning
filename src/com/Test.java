@@ -1,9 +1,10 @@
 package com;
 
-import com.common.Constants;
-import com.dbpool.DbConnectionManager;
+import com.domain.Computer;
 
-import java.sql.Connection;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.Set;
 
 /**
  * Test
@@ -13,6 +14,6 @@ import java.sql.Connection;
 public class Test {
 
     public static void main(String[] args) {
-        Connection conn = DbConnectionManager.getConnetion(Constants.DB);
+       Class<?> clazz = Computer.class;
     }
 }
