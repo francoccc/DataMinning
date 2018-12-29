@@ -37,7 +37,7 @@ public class DbConnectionManager {
         String dbpool = belongs.get(connection);
         register.get(dbpool).releaseConnection(connection);
     }
-    Connection conn2 = DbConnectionManager.getConnetion(Constants.DB);
+
     public static void clear(String dbpool) {
         register.get(dbpool).clear();
     }
