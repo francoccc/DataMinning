@@ -91,8 +91,15 @@ public class ID3Selector implements AttrSelector {
             double positive = map.get(value).get(0);
             double negative = map.get(value).get(1);
             double sum = positive + negative;
-            score += -positive / records.size() * MathUtils.log2N(positive / sum)
-                    -negative / records.size() * MathUtils.log2N(negative / sum);
+            double positivePart = -positive / records.size() * MathUtils.log2N(positive / sum);
+            double negativePart = -negative / records.size() * MathUtils.log2N(negative / sum);
+            if(positive == 0) {
+                positivePart = 0;
+            }
+            if(negative == 0) {
+                negativePart = 0;
+            }
+            score += positivePart + negativePart;
         }
         return score;
     }

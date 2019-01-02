@@ -52,6 +52,23 @@ public class DescisionTree {
         return node;
     }
 
+    public boolean decide(TreeNode root, BaseRecord record) {
+        while(root.getTreeNodeList() != null) {
+            Field best = root.getTreeNodeList().get(0).getField();
+            for(TreeNode node : root.getTreeNodeList()) {
+                try {
+                    if(best.get(record).equals(node.getValue())) {
+                        root = node;
+                        break;
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return root.isDecisionAttr();
+    }
+
     public List<List<BaseRecord>> splitRecords(List<BaseRecord> records, Field best) {
         List<List<BaseRecord>> res = new ArrayList<>();
         for(BaseRecord baseRecord : records) {
@@ -63,7 +80,8 @@ public class DescisionTree {
                     if (null != records1) {
                         Object obj1 = best.get(records1.get(0));
                         if(obj.equals(obj1)) {
-                            records.add(baseRecord);
+                            records1.add(baseRecord);
+                            needCreate = false;
                         }
                     }
                 }
