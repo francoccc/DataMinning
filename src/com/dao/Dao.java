@@ -1,9 +1,11 @@
 package com.dao;
 
+import com.domain.JdbcModel;
+
 import java.sql.Connection;
 import java.util.List;
 
-public interface Dao {
+public interface Dao <T extends JdbcModel>{
 
     /**
      * 获取数据库连接
@@ -18,5 +20,5 @@ public interface Dao {
     /**
      * 获取表
      */
-    List<Object> getAll();
+    List<T> getAll();
 }

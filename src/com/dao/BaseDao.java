@@ -4,10 +4,12 @@ import com.common.Constants;
 import com.dbpool.DbConnectionManager;
 import com.domain.JdbcModel;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
  *
  * @author Franco
  */
-public class BaseDao implements Dao{
+public class BaseDao<T extends JdbcModel> implements Dao{
 
     /** Connection */
     private Connection conn;
@@ -24,14 +26,13 @@ public class BaseDao implements Dao{
     /** ResultSet */
     private ResultSet rs;
     /** Model */
-    private Class<?> clazz;
+    private Class<T> clazz;
     private String className;
 
     /**
      * 构造函数
-     * @param clazz
      */
-    public BaseDao(Class<?> clazz) {
+    public BaseDao(Class<T> clazz) {
         this.clazz = clazz;
         String[] strs = clazz.getName().split("\\.");
         className = strs[strs.length - 1];
@@ -48,12 +49,28 @@ public class BaseDao implements Dao{
     }
 
     @Override
-    public List<Object> getAll() {
+    public List<T> getAll() {
         String sql = "SELECT * FROM " + className;
         conn = getConnection();
+        List<T> model = new ArrayList<>();
         try {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
+            try {
+                while(rs.next()) {
+                    T instance = clazz.newInstance();
+                    Field[] fields = clazz.getDeclaredFields();
+                    int columnIndex = 1;
+                    for (Field field : fields) {
+                        field.setAccessible(true);
+                        field.set(instance, rs.getObject(columnIndex++));
+                    }
+                    model.add(instance);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } catch (SQLException e) {
             System.out.println(className + " sql query error");
             e.printStackTrace();
@@ -67,6 +84,6 @@ public class BaseDao implements Dao{
                 e.printStackTrace();
             }
         }
-        return null;
+        return model;
     }
 }

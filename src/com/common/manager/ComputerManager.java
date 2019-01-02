@@ -12,7 +12,7 @@ public class ComputerManager extends BaseDataManager {
 
     /** instance */
     private final static ComputerManager instance;
-    private final static ComputerDao dao = new ComputerDao(Computer.class);
+    private final static ComputerDao<Computer> dao = new ComputerDao(Computer.class);
 
     static {
         instance = new ComputerManager();

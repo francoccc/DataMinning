@@ -1,9 +1,13 @@
 package com.common;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class TreeNode {
 
+    private Field field;
+    private Object value;
+    private boolean decisionAttr;
     private String attrName;
     private List<TreeNode> treeNodeList;
 
@@ -24,6 +28,30 @@ public class TreeNode {
 
     public List<TreeNode> getTreeNodeList() {
         return treeNodeList;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public boolean isDecisionAttr() {
+        return decisionAttr;
+    }
+
+    public void setDecisionAttr(boolean decisionAttr) {
+        this.decisionAttr = decisionAttr;
     }
 
     public void setTreeNodeList(List<TreeNode> treeNodeList) {

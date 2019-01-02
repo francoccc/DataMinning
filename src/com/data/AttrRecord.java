@@ -7,12 +7,12 @@ package com.data;
  */
 public class AttrRecord extends BaseRecord {
 
-    private Age age;
-    private Income income;
-    private Credit credit;
+    private int age;
+    private int income;
+    private int credit;
     private boolean student;
 
-    public AttrRecord(boolean decision, Age age, Income income, Credit credit, boolean student) {
+    public AttrRecord(boolean decision, int age, int income, int credit, boolean student) {
         super(decision);
         this.age = age;
         this.income = income;
@@ -20,27 +20,27 @@ public class AttrRecord extends BaseRecord {
         this.student = student;
     }
 
-    public Age getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Age age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public Income getIncome() {
+    public int getIncome() {
         return income;
     }
 
-    public void setIncome(Income income) {
+    public void setIncome(int income) {
         this.income = income;
     }
 
-    public Credit getCredit() {
+    public int getCredit() {
         return credit;
     }
 
-    public void setCredit(Credit credit) {
+    public void setCredit(int credit) {
         this.credit = credit;
     }
 

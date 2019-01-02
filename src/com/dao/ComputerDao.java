@@ -1,8 +1,15 @@
 package com.dao;
 
-public class ComputerDao extends BaseDao {
+import com.domain.JdbcModel;
 
-    public ComputerDao(Class<?> clazz) {
+/**
+ *
+ * @author Franco
+ */
+public class ComputerDao<T extends JdbcModel>  extends BaseDao {
+
+
+    public ComputerDao(Class<T> clazz) {
         super(clazz);
     }
 }
